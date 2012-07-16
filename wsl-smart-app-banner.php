@@ -32,9 +32,14 @@ License: GPL
 // This just echoes the chosen line, we'll position it later
 function wsl_output_safari_app_banner($post_ID) {
   // check for properties that give us the app id
-  $page = get_page()->ID;
-  $custom_fields = get_post_custom($page);
+  $custom_fields = get_post_custom($post_ID);
   $app_id_list = $custom_fields['wsl-app-id'];
+
+  if (is_null($app_id_list)) {
+    // no custom fields; move on
+    return;
+  }
+
   foreach ( $app_id_list as $key => $value )
     $app_id = $value;
 
