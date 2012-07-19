@@ -134,4 +134,54 @@ function wsl_smart_app_banner_options() {
 
 add_action( 'admin_menu', 'wsl_smart_app_banner_admin_menu' );
 
+// register the meta box
+add_action( 'add_meta_boxes', 'wsl_smart_app_banner_post_options' );
+function wsl_smart_app_banner_post_options() {
+    foreach (array('post','page') as $element) {
+      add_meta_box(
+          'wsl_smart_app_banner_id',          // this is HTML id of the box on edit screen
+          'Smart App Banner',    // title of the box
+          'wsl_smart_app_banner_display_options',   // function to be called to display the checkboxes, see the function below
+          $element,        // on which edit screen the box should appear
+          'normal',      // part of page where the box should appear
+          'default'      // priority of the box
+      );
+    }
+}
+
+// display the metabox
+function wsl_smart_app_banner_display_options( $post_id ) {
+    // nonce field for security check, you can have the same
+    // nonce field for all your meta boxes of same plugin
+    wp_nonce_field( plugin_basename( __FILE__ ), 'wsl-sab-nonce' );
+
+    $custom_fields = get_post_custom($post_ID);
+    $app_id_list = $custom_fields['wsl-app-id'];
+
+    echo "App ID: <input type=\"text\" name=\"wsl_smart_app_banner_app_id\" value=\"$app_id_list[0]\" />";
+}
+
+// save data from checkboxes
+add_action( 'save_post', 'wsl_smart_app_banner_app_save' );
+function wsl_smart_app_banner_app_save($post_ID) {
+
+    // check if this isn't an auto save
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return;
+
+    // security check
+    if ( !wp_verify_nonce( $_POST['wsl-sab-nonce'], plugin_basename( __FILE__ ) ) )
+        return;
+
+    // further checks if you like, 
+    // for example particular user, role or maybe post type in case of custom post types
+
+    // now store data in custom fields based on checkboxes selected
+    if ( isset( $_POST['wsl_smart_app_banner_app_id'] ) ) {
+      
+      add_post_meta($post_ID, 'wsl-app-id', $_POST['wsl_smart_app_banner_app_id'] , true) or
+          update_post_meta($post_ID, 'wsl-app-id', $_POST['wsl_smart_app_banner_app_id']);
+    }
+}
+
 ?>
