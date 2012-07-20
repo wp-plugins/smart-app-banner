@@ -37,7 +37,7 @@ function wsl_output_safari_app_banner($post_ID) {
   else {
     // check for properties that give us the app id
     $custom_fields = get_post_custom($post_ID);
-    $app_id_list = $custom_fields['wsl-app-id'];
+    $app_id_list = $custom_fields['_wsl-app-id'];
 
     if (is_null($app_id_list)) {
       // no custom fields; move on
@@ -156,7 +156,7 @@ function wsl_smart_app_banner_display_options( $post_id ) {
     wp_nonce_field( plugin_basename( __FILE__ ), 'wsl-sab-nonce' );
 
     $custom_fields = get_post_custom($post_ID);
-    $app_id_list = $custom_fields['wsl-app-id'];
+    $app_id_list = $custom_fields['_wsl-app-id'];
 
     echo "App ID: <input type=\"text\" name=\"wsl_smart_app_banner_app_id\" value=\"$app_id_list[0]\" />";
 }
@@ -179,8 +179,8 @@ function wsl_smart_app_banner_app_save($post_ID) {
     // now store data in custom fields based on checkboxes selected
     if ( isset( $_POST['wsl_smart_app_banner_app_id'] ) ) {
       
-      add_post_meta($post_ID, 'wsl-app-id', $_POST['wsl_smart_app_banner_app_id'] , true) or
-          update_post_meta($post_ID, 'wsl-app-id', $_POST['wsl_smart_app_banner_app_id']);
+      add_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id'] , true) or
+          update_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id']);
     }
 }
 
