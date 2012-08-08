@@ -3,7 +3,7 @@ Contributors: stephend
 Tags: ios, iphone, smart, app, banner
 Requires at least: 3.1.4
 Tested up to: 3.4
-Stable tag: 0.2
+Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,9 @@ You can always buy my apps. Have a look at http://www.wandlesoftware.com/.
 If you're upgrading from version 0.1 you'll need to add your App IDs again I'm afraid. You can remove the old wsl-app-id custom field.
 
 == Changelog ==
+
+= 0.2.1 =
+* Show admin box for all page types, not just page and post
 
 = 0.2 =
 * Option to display a banner on the home page
