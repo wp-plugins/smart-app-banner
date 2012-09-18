@@ -38,15 +38,15 @@ function wsl_output_safari_app_banner($post_ID) {
     // check for properties that give us the app id
     $custom_fields = get_post_custom($post_ID);
     $app_id_list = $custom_fields['_wsl-app-id'];
+    $affiliate_data = $custom_fields['_wsl-affiliate-data'];
+    $app_argument = $custom_fields['_wsl-app-argument'];
 
     if (is_null($app_id_list)) {
       // no custom fields; move on
       return;
     }
 
-    foreach ( $app_id_list as $key => $value ) {
-      $app_id = $value;
-    }
+    $app_id = $app_id_list[0];
   }
 
   // if it's not there, exit
@@ -54,8 +54,17 @@ function wsl_output_safari_app_banner($post_ID) {
     return;
   }
 
+  $options = "";
+
+  if (! is_null($affiliate_data) and $affiliate_data[0] != "") {
+    $options = "$options, affiliate-data=$affiliate_data[0]";
+  }
+  if (! is_null($app_argument) and $app_argument[0] != "") {
+    $options = "$options, app-argument=$app_argument[0]";
+  }
+
   // if it is, output the header
-  echo "<meta name=\"apple-itunes-app\" content=\"app-id=$app_id\">";
+  echo "<meta name=\"apple-itunes-app\" content=\"app-id=$app_id$options\">";
 }
 
 add_action( 'wp_head', 'wsl_output_safari_app_banner' );
@@ -157,8 +166,14 @@ function wsl_smart_app_banner_display_options( $post_id ) {
 
     $custom_fields = get_post_custom($post_ID);
     $app_id_list = $custom_fields['_wsl-app-id'];
+    $affiliate_data = $custom_fields['_wsl-affiliate-data'];
+    $app_argument = $custom_fields['_wsl-app-argument'];
 
-    echo "App ID: <input type=\"text\" name=\"wsl_smart_app_banner_app_id\" value=\"$app_id_list[0]\" />";
+    echo "<table>";
+    echo "<tr><td>App ID:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_id\" value=\"$app_id_list[0]\" /></td</tr>";
+    echo "<tr><td>Affiliate data:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_affiliate_data\" value=\"$affiliate_data[0]\" /></td></tr>";
+    echo "<tr><td>App argument:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_argument\" value=\"$app_argument[0]\" /></td></tr>";
+    echo "</table>";
 }
 
 // save data from checkboxes
@@ -181,6 +196,16 @@ function wsl_smart_app_banner_app_save($post_ID) {
       
       add_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id'] , true) or
           update_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id']);
+    }
+    if ( isset( $_POST['wsl_smart_app_banner_affiliate_data'] ) ) {
+      
+      add_post_meta($post_ID, '_wsl-affiliate-data', $_POST['wsl_smart_app_banner_affiliate_data'] , true) or
+          update_post_meta($post_ID, '_wsl-affiliate-data', $_POST['wsl_smart_app_banner_affiliate_data']);
+    }
+    if ( isset( $_POST['wsl_smart_app_banner_app_argument'] ) ) {
+      
+      add_post_meta($post_ID, '_wsl-app-argument', $_POST['wsl_smart_app_banner_app_argument'] , true) or
+          update_post_meta($post_ID, '_wsl-app-argument', $_POST['wsl_smart_app_banner_app_argument']);
     }
 }
 
