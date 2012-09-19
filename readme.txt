@@ -3,7 +3,7 @@ Contributors: stephend
 Tags: ios, iphone, smart, app, banner
 Requires at least: 3.1.4
 Tested up to: 3.4
-Stable tag: 0.2.1
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,9 +57,10 @@ don't have a device, you can "View Source" on your page and look for the text
 
 = I found a bug! =
 
-Please let me know and I'll see what I can do. 
+The quickest way is to see if you can fix it yourself. I accept patches! But if
+you can't, please let me know and I'll see what I can do. 
 
-= I really need it to do _x_ =
+= I really need it to do x =
 
 I accept patches! I'm also happy to hear your suggestions but I can't promise anything.
 
@@ -76,6 +77,10 @@ You can always buy my apps. Have a look at http://www.wandlesoftware.com/.
 If you're upgrading from version 0.1 you'll need to add your App IDs again I'm afraid. You can remove the old wsl-app-id custom field.
 
 == Changelog ==
+
+= 0.3 =
+* Updates to reflect public nature of iOS 6
+* Add affiliate data and app argument
 
 = 0.2.1 =
 * Show admin box for all page types, not just page and post
