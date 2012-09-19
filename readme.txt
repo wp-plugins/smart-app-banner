@@ -21,7 +21,7 @@ You can find the App ID in iTunes Connect or if the iTunes URL for your app look
 
 http://itunes.apple.com/us/app/rootn-tootn-baby-feed-timer/id530589336?ls=1&mt=8
 
-Then your ID is the number.
+Then your ID is "530589336".
 
 == Installation ==
 
@@ -31,7 +31,7 @@ Then your ID is the number.
 
 == Screenshots ==
 
-No screenshots until iOS6 is released and there's nothing covered by the NDA.
+1. Safari on iOS
 
 == Frequently Asked Questions ==
 
