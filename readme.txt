@@ -7,17 +7,31 @@ Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This is a WordPress plugin that allows you to use the Smart App Banners that were introduced at WWDC 2012 for iOS6 devices.
+This is a WordPress plugin that allows you to use Smart App Banners, introduced in
+iOS 6, with your WordPress blog.
 
 == Description ==
 
-This is a WordPress plugin that allows you to use the Smart App Banners that were introduced at WWDC 2012 for iOS6 devices. The information to make this plugin, however, was created using [publicly available information](http://www.quora.com/iOS-6/How-will-Smart-App-Banners-work).
+This is a WordPress plugin that allows you to use the Smart App Banners with your
+WordPress blog. 
 
-In short, you download and activate the plugin. On pages and posts you should find a "Smart App Banner" settings box. If you want the Smart App Banner to appear on this page then enter the App ID of your application here.
+[According to Apple](https://developer.apple.com/library/ios/#documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html#//apple_ref/doc/uid/TP40002051-CH6-SW1), Smart App Banners:
+
+> vastly improve users’ browsing experience compared to other promotional methods.
+> As banners are implemented in iOS 6, they will provide a consistent look and
+> feel across the web that users will come to recognize. Users will trust that tapping the
+> banner will take them to the App Store and not a third-party advertisement. They will
+> appreciate that banners are presented unobtrusively at the top of a webpage, instead of
+> as a full-screen ad interrupting the web content. And with a large and prominent
+> close button, a banner is easy for users to dismiss.
+
+It's really simple to use. In short, you download and activate the plugin. On pages and posts you should find a "Smart App Banner" settings box. If you want the Smart App Banner to appear on this page then enter the App ID of your application here. You can also enter affiliate data and an app argument here. 
 
 If you want to display a banner on the home page there's a setting screen (Settings -> Smart App Banner) where you can enter the App ID.
 
-You can find the App ID in iTunes Connect or if the iTunes URL for your app looks like this:
+You can find the App ID in iTunes Connect, using the
+[iTunes Link Maker](http://itunes.apple.com/linkmaker/) or if the iTunes URL for your
+app looks like this:
 
 http://itunes.apple.com/us/app/rootn-tootn-baby-feed-timer/id530589336?ls=1&mt=8
 
@@ -37,13 +51,17 @@ Then your ID is "530589336".
 
 = I can't see the banner! =
 
-It's only available on iOS6 and above and that's not out yet!
+It's only available on iOS6 devices. if you want to check that it's working and you
+don't have a device, you can "View Source" on your page and look for the text
+"apple-itunes-app".
 
-= I have iOS6 and I still can't see it =
+= I found a bug! =
 
-Can you see the header in the page? Did you get the App ID correct?
+Please let me know and I'll see what I can do. 
 
-Also remember that it's still in beta. I saw a few crashes (of Safari) when the app was not available in the US (despite me being in the UK).
+= I really need it to do _x_ =
+
+I accept patches! I'm also happy to hear your suggestions but I can't promise anything.
 
 = Does it really need WordPress version 3.1.4? =
 
