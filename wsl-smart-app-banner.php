@@ -169,7 +169,7 @@ function wsl_smart_app_banner_options() {
   </tr>
 
   <tr>
-    <td>App ID (iPad0:</td>
+    <td>App ID (iPad):</td>
     <td><input type="text" name="<?php echo $appid_ipad_field_name; ?>" value="<?php echo $appid_ipad_val; ?>" /> (optional)</td>
   </tr>
 
