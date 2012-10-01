@@ -71,7 +71,7 @@ function wsl_output_safari_app_banner($post_ID) {
   }
 
   // if it is, output the header
-  if (is_null($app_id_ipad)) {
+  if (is_null($app_id_ipad) or $app_id_ipad == "") {
     echo "<meta name=\"apple-itunes-app\" content=\"app-id=$app_id$options\">";
   }
   else {
