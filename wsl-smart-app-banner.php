@@ -1,14 +1,14 @@
 <?php
 /**
  * @package WSLSmartAppBanner
- * @version 0.2.1
+ * @version 0.4.1
  */
 /*
 Plugin Name: Smart App Banner
 Plugin URI: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
 Description: Makes the Smart App Banner appear on iOS6 and above. 
 Author: Stephen Darlington, Wandle Software Limited
-Version: 0.2.1
+Version: 0.4.1
 Author URI: http://www.wandlesoftware.com/
 License: GPL
 */
@@ -33,6 +33,7 @@ License: GPL
 function wsl_output_safari_app_banner($post_ID) {
   if (is_front_page()) {
     $app_id = get_option('wsl_homepage_appid');
+    $app_id_ipad = get_option('wsl_homepage_appid_ipad');
     $affiliate_data = get_option('wsl_homepage_affiliate');
     $app_argument = get_option('wsl_homepage_argument');
   }
@@ -40,6 +41,7 @@ function wsl_output_safari_app_banner($post_ID) {
     // check for properties that give us the app id
     $custom_fields = get_post_custom($post_ID);
     $app_id_list = $custom_fields['_wsl-app-id'];
+    $app_id_ipad_list = $custom_fields['_wsl-app-id-ipad'];
     $affiliate_data_list = $custom_fields['_wsl-affiliate-data'];
     $app_argument_list = $custom_fields['_wsl-app-argument'];
 
@@ -49,6 +51,7 @@ function wsl_output_safari_app_banner($post_ID) {
     }
 
     $app_id = $app_id_list[0];
+    $app_id_ipad = $app_id_ipad_list[0];
     $affiliate_data = $affiliate_data_list[0];
     $app_argument = $app_argument_list[0];
   }
@@ -68,7 +71,23 @@ function wsl_output_safari_app_banner($post_ID) {
   }
 
   // if it is, output the header
-  echo "<meta name=\"apple-itunes-app\" content=\"app-id=$app_id$options\">";
+  if (is_null($app_id_ipad) or $app_id_ipad == "") {
+    echo "<meta name=\"apple-itunes-app\" content=\"app-id=$app_id$options\">";
+  }
+  else {
+    ?>
+<script language="javascript">
+<!--
+if (navigator.userAgent.match(/iPad/i) != null) {
+document.write("<meta name=\"apple-itunes-app\" content=\"app-id=<?php echo "$app_id_ipad$options"; ?>\">\n");
+}
+else {
+document.write("<meta name=\"apple-itunes-app\" content=\"app-id=<?php echo "$app_id$options"; ?>\">");
+}
+// -->
+</script>
+    <?php
+  }
 }
 
 add_action( 'wp_head', 'wsl_output_safari_app_banner' );
@@ -93,11 +112,13 @@ function wsl_smart_app_banner_options() {
     $hidden_field_name = 'wsl_submit_hidden';
 
     $appid_field_name = 'wsl_homepage_appid';
+    $appid_ipad_field_name = 'wsl_homepage_appid_ipad';
     $affiliate_field_name = 'wsl_homepage_affiliate';
     $argument_field_name = 'wsl_homepage_argument';
 
     // Read in existing option value from database
     $appid_val = get_option( $appid_field_name );
+    $appid_ipad_val = get_option( $appid_ipad_field_name );
     $affiliate_val = get_option( $affiliate_field_name );
     $argument_val = get_option( $argument_field_name );
 
@@ -106,11 +127,13 @@ function wsl_smart_app_banner_options() {
     if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
         // Read their posted value
         $appid_val = $_POST[ $appid_field_name ];
+        $appid_ipad_val = $_POST[ $appid_ipad_field_name ];
         $affiliate_val = $_POST[ $affiliate_field_name ];
         $argument_val = $_POST[ $argument_field_name ];
 
         // Save the posted value in the database
         update_option( $appid_field_name, $appid_val );
+        update_option( $appid_ipad_field_name, $appid_ipad_val );
         update_option( $affiliate_field_name, $affiliate_val );
         update_option( $argument_field_name, $argument_val );
 
@@ -143,6 +166,11 @@ function wsl_smart_app_banner_options() {
   <tr>
     <td>App ID:</td>
     <td><input type="text" name="<?php echo $appid_field_name; ?>" value="<?php echo $appid_val; ?>" /></td>
+  </tr>
+
+  <tr>
+    <td>App ID (iPad):</td>
+    <td><input type="text" name="<?php echo $appid_ipad_field_name; ?>" value="<?php echo $appid_ipad_val; ?>" /> (optional)</td>
   </tr>
 
   <tr>
@@ -193,11 +221,13 @@ function wsl_smart_app_banner_display_options( $post_id ) {
 
     $custom_fields = get_post_custom($post_ID);
     $app_id_list = $custom_fields['_wsl-app-id'];
+    $app_id_ipad_list = $custom_fields['_wsl-app-id-ipad'];
     $affiliate_data = $custom_fields['_wsl-affiliate-data'];
     $app_argument = $custom_fields['_wsl-app-argument'];
 
     echo "<table>";
     echo "<tr><td>App ID:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_id\" value=\"$app_id_list[0]\" /></td></tr>";
+    echo "<tr><td>App ID (iPad):</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_id_ipad\" value=\"$app_id_ipad_list[0]\" /> (optional)</td></tr>";
     echo "<tr><td>Affiliate data:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_affiliate_data\" value=\"$affiliate_data[0]\" /></td></tr>";
     echo "<tr><td>App argument:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_argument\" value=\"$app_argument[0]\" /></td></tr>";
     echo "</table>";
@@ -223,6 +253,11 @@ function wsl_smart_app_banner_app_save($post_ID) {
       
       add_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id'] , true) or
           update_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id']);
+    }
+    if ( isset( $_POST['wsl_smart_app_banner_app_id_ipad'] ) ) {
+      
+      add_post_meta($post_ID, '_wsl-app-id-ipad', $_POST['wsl_smart_app_banner_app_id_ipad'] , true) or
+          update_post_meta($post_ID, '_wsl-app-id-ipad', $_POST['wsl_smart_app_banner_app_id_ipad']);
     }
     if ( isset( $_POST['wsl_smart_app_banner_affiliate_data'] ) ) {
       
