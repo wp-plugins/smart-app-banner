@@ -87,6 +87,9 @@ If you're upgrading from version 0.1 you'll need to add your App IDs again I'm a
 
 == Changelog ==
 
+= 0.4.2 =
+* Option to use the same Smart App Banner on all pages
+
 = 0.4.1 =
 * Fixed: Occasionally displayed the iPad version of the meta code when no iPad App ID was specified
 

@@ -31,7 +31,7 @@ License: GPL
 
 // This just echoes the chosen line, we'll position it later
 function wsl_output_safari_app_banner($post_ID) {
-  if (is_front_page()) {
+  if (is_front_page() or get_option('wsl_global_banner') == 'Yes') {
     $app_id = get_option('wsl_homepage_appid');
     $app_id_ipad = get_option('wsl_homepage_appid_ipad');
     $affiliate_data = get_option('wsl_homepage_affiliate');
@@ -115,12 +115,14 @@ function wsl_smart_app_banner_options() {
     $appid_ipad_field_name = 'wsl_homepage_appid_ipad';
     $affiliate_field_name = 'wsl_homepage_affiliate';
     $argument_field_name = 'wsl_homepage_argument';
+    $global_banner_field_name = 'wsl_global_banner';
 
     // Read in existing option value from database
     $appid_val = get_option( $appid_field_name );
     $appid_ipad_val = get_option( $appid_ipad_field_name );
     $affiliate_val = get_option( $affiliate_field_name );
     $argument_val = get_option( $argument_field_name );
+    $global_banner_val = get_option( $global_banner_field_name );
 
     // See if the user has posted us some information
     // If they did, this hidden field will be set to 'Y'
@@ -130,12 +132,19 @@ function wsl_smart_app_banner_options() {
         $appid_ipad_val = $_POST[ $appid_ipad_field_name ];
         $affiliate_val = $_POST[ $affiliate_field_name ];
         $argument_val = $_POST[ $argument_field_name ];
+        $global_banner_val = $_POST[ $global_banner_field_name ];
 
         // Save the posted value in the database
         update_option( $appid_field_name, $appid_val );
         update_option( $appid_ipad_field_name, $appid_ipad_val );
         update_option( $affiliate_field_name, $affiliate_val );
         update_option( $argument_field_name, $argument_val );
+        if( $_POST[ $global_banner_field_name ] == "Yes") {
+          update_option( $global_banner_field_name, "Yes");
+        }
+        else {
+          update_option( $global_banner_field_name, "No");
+        }
 
         // Put an settings updated message on the screen
 
@@ -181,6 +190,11 @@ function wsl_smart_app_banner_options() {
   <tr>
     <td>App argument:</td>
     <td><input type="text" name="<?php echo $argument_field_name; ?>" value="<?php echo $argument_val; ?>" /></td>
+  </tr>
+
+  <tr>
+    <td>Show on all pages:</td>
+    <td><input type="checkbox" name="<?php echo $global_banner_field_name; ?>" value="Yes" <?php if ($global_banner_val == "Yes") { echo "checked"; } ?> /></td>
   </tr>
 
 </table>
