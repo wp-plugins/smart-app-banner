@@ -1,5 +1,6 @@
 === Plugin Name ===
 Contributors: stephend
+Donate link: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
 Tags: ios, iphone, smart, app, banner
 Requires at least: 3.1.4
 Tested up to: 3.4.2
@@ -79,7 +80,9 @@ Probably not. But since I always keep my installations up to date I have no way 
 
 = It's really great! How can I ever thank you?! =
 
-You can always buy my apps. Have a look at http://www.wandlesoftware.com/.
+You can always buy my apps. Have a look at http://www.wandlesoftware.com/. Or
+there's a donate link at the same site. Or if you can write code, I accept
+good patches.
 
 == Upgrade Notice ==
 
