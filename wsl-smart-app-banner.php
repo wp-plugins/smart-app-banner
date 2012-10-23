@@ -29,31 +29,30 @@ License: GPL
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// This just echoes the chosen line, we'll position it later
 function wsl_output_safari_app_banner($post_ID) {
-  if (is_front_page() or get_option('wsl_global_banner') == 'Yes') {
-    $app_id = get_option('wsl_homepage_appid');
-    $app_id_ipad = get_option('wsl_homepage_appid_ipad');
-    $affiliate_data = get_option('wsl_homepage_affiliate');
-    $app_argument = get_option('wsl_homepage_argument');
-  }
-  else {
+  // This is a weird order, but the idea is that if there's a local
+  // definition we use that in preference to the global option
+  if (! is_front_page()) {
     // check for properties that give us the app id
     $custom_fields = get_post_custom($post_ID);
     $app_id_list = $custom_fields['_wsl-app-id'];
+
     $app_id_ipad_list = $custom_fields['_wsl-app-id-ipad'];
     $affiliate_data_list = $custom_fields['_wsl-affiliate-data'];
     $app_argument_list = $custom_fields['_wsl-app-argument'];
-
-    if (is_null($app_id_list)) {
-      // no custom fields; move on
-      return;
-    }
 
     $app_id = $app_id_list[0];
     $app_id_ipad = $app_id_ipad_list[0];
     $affiliate_data = $affiliate_data_list[0];
     $app_argument = $app_argument_list[0];
+  }
+
+  if ((is_null($app_id_list) or $app_id == "") and
+      (is_front_page() or get_option('wsl_global_banner') == 'Yes')) {
+    $app_id = get_option('wsl_homepage_appid');
+    $app_id_ipad = get_option('wsl_homepage_appid_ipad');
+    $affiliate_data = get_option('wsl_homepage_affiliate');
+    $app_argument = get_option('wsl_homepage_argument');
   }
 
   // if it's not there, exit
