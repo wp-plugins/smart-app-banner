@@ -1,9 +1,10 @@
 === Plugin Name ===
 Contributors: stephend
+Donate link: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
 Tags: ios, iphone, smart, app, banner
 Requires at least: 3.1.4
-Tested up to: 3.4
-Stable tag: 0.3
+Tested up to: 3.4.2
+Stable tag: 0.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +56,15 @@ It's only available on iOS6 devices. if you want to check that it's working and 
 don't have a device, you can "View Source" on your page and look for the text
 "apple-itunes-app".
 
+= I've specified an App ID for my iPad app but I don't see the banner =
+
+Where did you put the App ID? Or in the App ID field or in the "App ID (iPad)" field?
+
+If you only have one app -- iPad-only or Universal -- you only need to specify the
+"App ID." The "App ID (iPad)" field is for when you have two apps of the same name,
+one for the iPhone and one for the iPad. You should put the default (iPhone) ID in
+the top field and the iPad App ID in the other one.
+
 = I found a bug! =
 
 The quickest way is to see if you can fix it yourself. I accept patches! But if
@@ -70,13 +80,24 @@ Probably not. But since I always keep my installations up to date I have no way 
 
 = It's really great! How can I ever thank you?! =
 
-You can always buy my apps. Have a look at http://www.wandlesoftware.com/.
+You can always buy my apps. Have a look at http://www.wandlesoftware.com/. Or
+there's a donate link at the same site. Or if you can write code, I accept
+good patches.
 
 == Upgrade Notice ==
 
 If you're upgrading from version 0.1 you'll need to add your App IDs again I'm afraid. You can remove the old wsl-app-id custom field.
 
 == Changelog ==
+
+= 0.4.2 =
+* Option to use the same Smart App Banner on all pages
+
+= 0.4.1 =
+* Fixed: Occasionally displayed the iPad version of the meta code when no iPad App ID was specified
+
+= 0.4 =
+* New option: if you specify an iPad App ID, it'll display that only on iPads. It does the check on the device itself, so the code is "safe" even if you use WordPress caching plugins
 
 = 0.3 =
 * Updates to reflect public nature of iOS 6
