@@ -8,6 +8,7 @@ Plugin Name: Smart App Banner
 Plugin URI: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
 Description: Makes the Smart App Banner appear on iOS6 and above. 
 Author: Stephen Darlington, Wandle Software Limited
+Text Domain: wsl-smart-app-banner
 Version: 0.4.2
 Author URI: http://www.wandlesoftware.com/
 License: GPL
@@ -28,6 +29,12 @@ License: GPL
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+function wsl_smart_app_banner_init() {
+ $plugin_dir = basename(dirname(__FILE__));
+ load_plugin_textdomain( 'wsl-smart-app-banner', false, $plugin_dir );
+}
+add_action('plugins_loaded', 'wsl_smart_app_banner_init');
 
 function wsl_output_safari_app_banner($post_ID) {
   // This is a weird order, but the idea is that if there's a local
@@ -93,8 +100,8 @@ add_action( 'wp_head', 'wsl_output_safari_app_banner' );
 
 // Admin menu gubbins
 function wsl_smart_app_banner_admin_menu() {
-  add_options_page( __('Smart App Banner Options', 'wsl-smart-app-banner'),
-                    'Smart App Banner',
+  add_options_page( __('Smart App Banner Settings', 'wsl-smart-app-banner'),
+                    __('Smart App Banner'),
                     'manage_options',
                     'wsl-smart-app-banner',
                     'wsl_smart_app_banner_options' );
@@ -217,7 +224,7 @@ function wsl_smart_app_banner_post_options() {
     foreach (get_post_types() as $element) {
       add_meta_box(
           'wsl_smart_app_banner_id',          // this is HTML id of the box on edit screen
-          'Smart App Banner',    // title of the box
+          __('Smart App Banner'),    // title of the box
           'wsl_smart_app_banner_display_options',   // function to be called to display the checkboxes, see the function below
           $element,        // on which edit screen the box should appear
           'normal',      // part of page where the box should appear
