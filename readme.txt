@@ -3,7 +3,7 @@ Contributors: stephend
 Donate link: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
 Tags: ios, iphone, smart, app, banner
 Requires at least: 3.1.4
-Tested up to: 3.4.2
+Tested up to: 3.7.1
 Stable tag: 0.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -89,6 +89,9 @@ good patches.
 If you're upgrading from version 0.1 you'll need to add your App IDs again I'm afraid. You can remove the old wsl-app-id custom field.
 
 == Changelog ==
+
+= X.X.X =
+* Localisation support
 
 = 0.4.2 =
 * Option to use the same Smart App Banner on all pages

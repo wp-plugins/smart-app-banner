@@ -93,7 +93,7 @@ add_action( 'wp_head', 'wsl_output_safari_app_banner' );
 
 // Admin menu gubbins
 function wsl_smart_app_banner_admin_menu() {
-  add_options_page( 'Smart App Banner Options',
+  add_options_page( __('Smart App Banner Options', 'wsl-smart-app-banner'),
                     'Smart App Banner',
                     'manage_options',
                     'wsl-smart-app-banner',
@@ -148,7 +148,7 @@ function wsl_smart_app_banner_options() {
         // Put an settings updated message on the screen
 
 ?>
-<div class="updated"><p><strong><?php _e('settings saved.', 'wsl-smart-app-banner' ); ?></strong></p></div>
+<div class="updated"><p><strong><?php __('settings saved.', 'wsl-smart-app-banner' ); ?></strong></p></div>
 <?php
 
     }
@@ -168,31 +168,31 @@ function wsl_smart_app_banner_options() {
 <form name="form1" method="post" action="">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 
-<p>These values are used on your home page. (Leave blank if no banner is required.)</p>
+<p><?php _e('These values are used on your home page. (Leave blank if no banner is required.)', 'wsl-smart-app-banner'); ?></p>
 
 <table>
   <tr>
-    <td>App ID:</td>
+    <td><?php _e('App ID:','wsl-smart-app-banner'); ?></td>
     <td><input type="text" name="<?php echo $appid_field_name; ?>" value="<?php echo $appid_val; ?>" /></td>
   </tr>
 
   <tr>
-    <td>App ID (iPad):</td>
-    <td><input type="text" name="<?php echo $appid_ipad_field_name; ?>" value="<?php echo $appid_ipad_val; ?>" /> (optional)</td>
+    <td><?php _e('App ID (iPad):','wsl-smart-app-banner'); ?></td>
+    <td><input type="text" name="<?php echo $appid_ipad_field_name; ?>" value="<?php echo $appid_ipad_val; ?>" /> <?php _e('(optional)', 'wsl-smart-app-banner'); ?></td>
   </tr>
 
   <tr>
-    <td>Affiliate data:</td>
+    <td><?php _e('Affiliate data:','wsl-smart-app-banner'); ?></td>
     <td><input type="text" name="<?php echo $affiliate_field_name; ?>" value="<?php echo $affiliate_val; ?>" /></td>
   </tr>
 
   <tr>
-    <td>App argument:</td>
+    <td><?php _e('App argument:','wsl-smart-app-banner'); ?></td>
     <td><input type="text" name="<?php echo $argument_field_name; ?>" value="<?php echo $argument_val; ?>" /></td>
   </tr>
 
   <tr>
-    <td>Show on all pages:</td>
+    <td><?php _e('Show on all pages:','wsl-smart-app-banner'); ?></td>
     <td><input type="checkbox" name="<?php echo $global_banner_field_name; ?>" value="Yes" <?php if ($global_banner_val == "Yes") { echo "checked"; } ?> /></td>
   </tr>
 
@@ -238,12 +238,26 @@ function wsl_smart_app_banner_display_options( $post_id ) {
     $affiliate_data = $custom_fields['_wsl-affiliate-data'];
     $app_argument = $custom_fields['_wsl-app-argument'];
 
-    echo "<table>";
-    echo "<tr><td>App ID:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_id\" value=\"$app_id_list[0]\" /></td></tr>";
-    echo "<tr><td>App ID (iPad):</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_id_ipad\" value=\"$app_id_ipad_list[0]\" /> (optional)</td></tr>";
-    echo "<tr><td>Affiliate data:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_affiliate_data\" value=\"$affiliate_data[0]\" /></td></tr>";
-    echo "<tr><td>App argument:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_argument\" value=\"$app_argument[0]\" /></td></tr>";
-    echo "</table>";
+    ?>
+    <table>
+      <tr>
+        <td><?php _e('App ID:','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_app_id" value="<?php echo $app_id_list[0]; ?>" /></td>
+      </tr>
+      <tr>
+        <td><?php _e('App ID (iPad):','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_app_id_ipad" value="<?php echo $app_id_ipad_list[0]; ?>" /> <?php _e('(optional)', 'wsl-smart-app-banner'); ?></td>
+      </tr>
+      <tr>
+        <td><?php _e('Affiliate data:','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_affiliate_data" value="<?php echo $affiliate_data[0]; ?>" /></td>
+      </tr>
+      <tr>
+        <td><?php _e('App argument:','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_app_argument" value="<?php echo $app_argument[0]; ?>" /></td>
+      </tr>
+    </table>
+    <?php
 }
 
 // save data from checkboxes
