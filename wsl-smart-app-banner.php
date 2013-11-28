@@ -101,7 +101,7 @@ add_action( 'wp_head', 'wsl_output_safari_app_banner' );
 // Admin menu gubbins
 function wsl_smart_app_banner_admin_menu() {
   add_options_page( __('Smart App Banner Settings', 'wsl-smart-app-banner'),
-                    __('Smart App Banner'),
+                    __('Smart App Banner', 'wsl-smart-app-banner'),
                     'manage_options',
                     'wsl-smart-app-banner',
                     'wsl_smart_app_banner_options' );
@@ -224,7 +224,7 @@ function wsl_smart_app_banner_post_options() {
     foreach (get_post_types() as $element) {
       add_meta_box(
           'wsl_smart_app_banner_id',          // this is HTML id of the box on edit screen
-          __('Smart App Banner'),    // title of the box
+          __('Smart App Banner','wsl-smart-app-banner'),    // title of the box
           'wsl_smart_app_banner_display_options',   // function to be called to display the checkboxes, see the function below
           $element,        // on which edit screen the box should appear
           'normal',      // part of page where the box should appear
