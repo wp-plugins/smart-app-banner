@@ -92,6 +92,7 @@ If you're upgrading from version 0.1 you'll need to add your App IDs again I'm a
 
 = X.X.X =
 * Localisation support
+* Translation into Serbo-Croation (sr_RS) thanks to [Borisa Djuraskovic] (http://www.webhostinghub.com/)
 
 = 0.4.2 =
 * Option to use the same Smart App Banner on all pages
