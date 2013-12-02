@@ -90,7 +90,7 @@ If you're upgrading from version 0.1 you'll need to add your App IDs again I'm a
 
 == Changelog ==
 
-= X.X.X =
+= 1.0.0 =
 * Localisation support
 * Translation into Serbo-Croation (sr_RS) thanks to [Borisa Djuraskovic] (http://www.webhostinghub.com/)
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WSLSmartAppBanner
- * @version 0.4.2
+ * @version 1.0.0
  */
 /*
 Plugin Name: Smart App Banner
@@ -9,7 +9,7 @@ Plugin URI: http://www.wandlesoftware.com/products/open-source-software/wordpres
 Description: Makes the Smart App Banner appear on iOS6 and above. 
 Author: Stephen Darlington, Wandle Software Limited
 Text Domain: wsl-smart-app-banner
-Version: 0.4.2
+Version: 1.0.0
 Author URI: http://www.wandlesoftware.com/
 License: GPL
 */
