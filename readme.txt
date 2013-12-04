@@ -4,7 +4,7 @@ Donate link: http://www.wandlesoftware.com/products/open-source-software/wordpre
 Tags: ios, iphone, smart, app, banner
 Requires at least: 3.1.4
 Tested up to: 3.7.1
-Stable tag: 0.4.2
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,7 +92,7 @@ If you're upgrading from version 0.1 you'll need to add your App IDs again I'm a
 
 = 1.0.0 =
 * Localisation support
-* Translation into Serbo-Croation (sr_RS) thanks to [Borisa Djuraskovic] (http://www.webhostinghub.com/)
+* Translation into Serbo-Croation (sr_RS) thanks to [Borisa Djuraskovic](http://www.webhostinghub.com/)
 
 = 0.4.2 =
 * Option to use the same Smart App Banner on all pages
