@@ -1,14 +1,15 @@
 <?php
 /**
  * @package WSLSmartAppBanner
- * @version 0.2.1
+ * @version 1.0.0
  */
 /*
 Plugin Name: Smart App Banner
 Plugin URI: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
 Description: Makes the Smart App Banner appear on iOS6 and above. 
 Author: Stephen Darlington, Wandle Software Limited
-Version: 0.2.1
+Text Domain: wsl-smart-app-banner
+Version: 1.0.0
 Author URI: http://www.wandlesoftware.com/
 License: GPL
 */
@@ -29,28 +30,36 @@ License: GPL
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// This just echoes the chosen line, we'll position it later
+function wsl_smart_app_banner_init() {
+ $plugin_dir = basename(dirname(__FILE__));
+ load_plugin_textdomain( 'wsl-smart-app-banner', false, $plugin_dir );
+}
+add_action('plugins_loaded', 'wsl_smart_app_banner_init');
+
 function wsl_output_safari_app_banner($post_ID) {
-  if (is_front_page()) {
-    $app_id = get_option('wsl_homepage_appid');
-    $affiliate_data = get_option('wsl_homepage_affiliate');
-    $app_argument = get_option('wsl_homepage_argument');
-  }
-  else {
+  // This is a weird order, but the idea is that if there's a local
+  // definition we use that in preference to the global option
+  if (! is_front_page()) {
     // check for properties that give us the app id
     $custom_fields = get_post_custom($post_ID);
     $app_id_list = $custom_fields['_wsl-app-id'];
+
+    $app_id_ipad_list = $custom_fields['_wsl-app-id-ipad'];
     $affiliate_data_list = $custom_fields['_wsl-affiliate-data'];
     $app_argument_list = $custom_fields['_wsl-app-argument'];
 
-    if (is_null($app_id_list)) {
-      // no custom fields; move on
-      return;
-    }
-
     $app_id = $app_id_list[0];
+    $app_id_ipad = $app_id_ipad_list[0];
     $affiliate_data = $affiliate_data_list[0];
     $app_argument = $app_argument_list[0];
+  }
+
+  if ((is_null($app_id_list) or $app_id == "") and
+      (is_front_page() or get_option('wsl_global_banner') == 'Yes')) {
+    $app_id = get_option('wsl_homepage_appid');
+    $app_id_ipad = get_option('wsl_homepage_appid_ipad');
+    $affiliate_data = get_option('wsl_homepage_affiliate');
+    $app_argument = get_option('wsl_homepage_argument');
   }
 
   // if it's not there, exit
@@ -68,15 +77,31 @@ function wsl_output_safari_app_banner($post_ID) {
   }
 
   // if it is, output the header
-  echo "<meta name=\"apple-itunes-app\" content=\"app-id=$app_id$options\">";
+  if (is_null($app_id_ipad) or $app_id_ipad == "") {
+    echo "<meta name=\"apple-itunes-app\" content=\"app-id=$app_id$options\">";
+  }
+  else {
+    ?>
+<script language="javascript">
+<!--
+if (navigator.userAgent.match(/iPad/i) != null) {
+document.write("<meta name=\"apple-itunes-app\" content=\"app-id=<?php echo "$app_id_ipad$options"; ?>\">\n");
+}
+else {
+document.write("<meta name=\"apple-itunes-app\" content=\"app-id=<?php echo "$app_id$options"; ?>\">");
+}
+// -->
+</script>
+    <?php
+  }
 }
 
 add_action( 'wp_head', 'wsl_output_safari_app_banner' );
 
 // Admin menu gubbins
 function wsl_smart_app_banner_admin_menu() {
-  add_options_page( 'Smart App Banner Options',
-                    'Smart App Banner',
+  add_options_page( __('Smart App Banner Settings', 'wsl-smart-app-banner'),
+                    __('Smart App Banner', 'wsl-smart-app-banner'),
                     'manage_options',
                     'wsl-smart-app-banner',
                     'wsl_smart_app_banner_options' );
@@ -93,31 +118,44 @@ function wsl_smart_app_banner_options() {
     $hidden_field_name = 'wsl_submit_hidden';
 
     $appid_field_name = 'wsl_homepage_appid';
+    $appid_ipad_field_name = 'wsl_homepage_appid_ipad';
     $affiliate_field_name = 'wsl_homepage_affiliate';
     $argument_field_name = 'wsl_homepage_argument';
+    $global_banner_field_name = 'wsl_global_banner';
 
     // Read in existing option value from database
     $appid_val = get_option( $appid_field_name );
+    $appid_ipad_val = get_option( $appid_ipad_field_name );
     $affiliate_val = get_option( $affiliate_field_name );
     $argument_val = get_option( $argument_field_name );
+    $global_banner_val = get_option( $global_banner_field_name );
 
     // See if the user has posted us some information
     // If they did, this hidden field will be set to 'Y'
     if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
         // Read their posted value
         $appid_val = $_POST[ $appid_field_name ];
+        $appid_ipad_val = $_POST[ $appid_ipad_field_name ];
         $affiliate_val = $_POST[ $affiliate_field_name ];
         $argument_val = $_POST[ $argument_field_name ];
+        $global_banner_val = $_POST[ $global_banner_field_name ];
 
         // Save the posted value in the database
         update_option( $appid_field_name, $appid_val );
+        update_option( $appid_ipad_field_name, $appid_ipad_val );
         update_option( $affiliate_field_name, $affiliate_val );
         update_option( $argument_field_name, $argument_val );
+        if( $_POST[ $global_banner_field_name ] == "Yes") {
+          update_option( $global_banner_field_name, "Yes");
+        }
+        else {
+          update_option( $global_banner_field_name, "No");
+        }
 
         // Put an settings updated message on the screen
 
 ?>
-<div class="updated"><p><strong><?php _e('settings saved.', 'wsl-smart-app-banner' ); ?></strong></p></div>
+<div class="updated"><p><strong><?php __('settings saved.', 'wsl-smart-app-banner' ); ?></strong></p></div>
 <?php
 
     }
@@ -137,22 +175,32 @@ function wsl_smart_app_banner_options() {
 <form name="form1" method="post" action="">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 
-<p>These values are used on your home page. (Leave blank if no banner is required.)</p>
+<p><?php _e('These values are used on your home page. (Leave blank if no banner is required.)', 'wsl-smart-app-banner'); ?></p>
 
 <table>
   <tr>
-    <td>App ID:</td>
+    <td><?php _e('App ID:','wsl-smart-app-banner'); ?></td>
     <td><input type="text" name="<?php echo $appid_field_name; ?>" value="<?php echo $appid_val; ?>" /></td>
   </tr>
 
   <tr>
-    <td>Affiliate data:</td>
+    <td><?php _e('App ID (iPad):','wsl-smart-app-banner'); ?></td>
+    <td><input type="text" name="<?php echo $appid_ipad_field_name; ?>" value="<?php echo $appid_ipad_val; ?>" /> <?php _e('(optional)', 'wsl-smart-app-banner'); ?></td>
+  </tr>
+
+  <tr>
+    <td><?php _e('Affiliate data:','wsl-smart-app-banner'); ?></td>
     <td><input type="text" name="<?php echo $affiliate_field_name; ?>" value="<?php echo $affiliate_val; ?>" /></td>
   </tr>
 
   <tr>
-    <td>App argument:</td>
+    <td><?php _e('App argument:','wsl-smart-app-banner'); ?></td>
     <td><input type="text" name="<?php echo $argument_field_name; ?>" value="<?php echo $argument_val; ?>" /></td>
+  </tr>
+
+  <tr>
+    <td><?php _e('Show on all pages:','wsl-smart-app-banner'); ?></td>
+    <td><input type="checkbox" name="<?php echo $global_banner_field_name; ?>" value="Yes" <?php if ($global_banner_val == "Yes") { echo "checked"; } ?> /></td>
   </tr>
 
 </table>
@@ -176,7 +224,7 @@ function wsl_smart_app_banner_post_options() {
     foreach (get_post_types() as $element) {
       add_meta_box(
           'wsl_smart_app_banner_id',          // this is HTML id of the box on edit screen
-          'Smart App Banner',    // title of the box
+          __('Smart App Banner','wsl-smart-app-banner'),    // title of the box
           'wsl_smart_app_banner_display_options',   // function to be called to display the checkboxes, see the function below
           $element,        // on which edit screen the box should appear
           'normal',      // part of page where the box should appear
@@ -193,14 +241,30 @@ function wsl_smart_app_banner_display_options( $post_id ) {
 
     $custom_fields = get_post_custom($post_ID);
     $app_id_list = $custom_fields['_wsl-app-id'];
+    $app_id_ipad_list = $custom_fields['_wsl-app-id-ipad'];
     $affiliate_data = $custom_fields['_wsl-affiliate-data'];
     $app_argument = $custom_fields['_wsl-app-argument'];
 
-    echo "<table>";
-    echo "<tr><td>App ID:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_id\" value=\"$app_id_list[0]\" /></td></tr>";
-    echo "<tr><td>Affiliate data:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_affiliate_data\" value=\"$affiliate_data[0]\" /></td></tr>";
-    echo "<tr><td>App argument:</td><td><input type=\"text\" name=\"wsl_smart_app_banner_app_argument\" value=\"$app_argument[0]\" /></td></tr>";
-    echo "</table>";
+    ?>
+    <table>
+      <tr>
+        <td><?php _e('App ID:','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_app_id" value="<?php echo $app_id_list[0]; ?>" /></td>
+      </tr>
+      <tr>
+        <td><?php _e('App ID (iPad):','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_app_id_ipad" value="<?php echo $app_id_ipad_list[0]; ?>" /> <?php _e('(optional)', 'wsl-smart-app-banner'); ?></td>
+      </tr>
+      <tr>
+        <td><?php _e('Affiliate data:','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_affiliate_data" value="<?php echo $affiliate_data[0]; ?>" /></td>
+      </tr>
+      <tr>
+        <td><?php _e('App argument:','wsl-smart-app-banner'); ?></td>
+        <td><input type="text" name="wsl_smart_app_banner_app_argument" value="<?php echo $app_argument[0]; ?>" /></td>
+      </tr>
+    </table>
+    <?php
 }
 
 // save data from checkboxes
@@ -223,6 +287,11 @@ function wsl_smart_app_banner_app_save($post_ID) {
       
       add_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id'] , true) or
           update_post_meta($post_ID, '_wsl-app-id', $_POST['wsl_smart_app_banner_app_id']);
+    }
+    if ( isset( $_POST['wsl_smart_app_banner_app_id_ipad'] ) ) {
+      
+      add_post_meta($post_ID, '_wsl-app-id-ipad', $_POST['wsl_smart_app_banner_app_id_ipad'] , true) or
+          update_post_meta($post_ID, '_wsl-app-id-ipad', $_POST['wsl_smart_app_banner_app_id_ipad']);
     }
     if ( isset( $_POST['wsl_smart_app_banner_affiliate_data'] ) ) {
       
