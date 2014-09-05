@@ -3,7 +3,7 @@ Contributors: stephend
 Donate link: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
 Tags: ios, iphone, smart, app, banner
 Requires at least: 3.1.4
-Tested up to: 3.9.0
+Tested up to: 4.0.0
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -37,6 +37,21 @@ app looks like this:
 http://itunes.apple.com/us/app/rootn-tootn-baby-feed-timer/id530589336?ls=1&mt=8
 
 Then your ID is "530589336".
+
+The other two fields are optional.
+
+The affiliate data field varies depending on the affiliate. The most common is PHG, where the value looks like "at=AFFILIATE_TOKEN" or "at=AFFILIATE_TOKEN&ct=CAMPAIGN" (without the quotes). You can find the token when you sign into the PHG website. The campaign is just some text you use to identify a particular marketing campaign.
+
+So I might have "at=11lmMT&ct=wordpress" on the product pages of my website. Check the documentation to find your affiliate token and confirm the format.
+
+[According to the documentation](https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html), the app argument value is:
+
+> A URL that provides context to your native app. If you include this, and the user has your
+> app installed, she can jump from your website to the corresponding position in your iOS app.
+
+This plugin does not restrict or validate what you put here.
+
+> You can format it however you'd like, as long as it is a valid URL.
 
 == Installation ==
 
