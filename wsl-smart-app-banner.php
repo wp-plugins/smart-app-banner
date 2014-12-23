@@ -305,4 +305,14 @@ function wsl_smart_app_banner_app_save($post_ID) {
     }
 }
 
+// let's uninstall ourselves cleanly
+register_uninstall_hook(__FILE__ , 'wsl_smart_app_banner_uninstall');
+function wsl_smart_app_banner_uninstall() {
+    delete_option('wsl_global_banner');
+    delete_option('wsl_homepage_appid');
+    delete_option('wsl_homepage_appid_ipad');
+    delete_option('wsl_homepage_affiliate');
+    delete_option('wsl_homepage_argument');
+}
+
 ?>
