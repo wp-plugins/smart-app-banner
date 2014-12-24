@@ -350,16 +350,23 @@ function wsl_smart_app_banner_display_options( $post_id ) {
     <?php
       if (count($app_list) > 0) {
     ?>
+    <script>
+      function updateAppBannerTable(idx) {
+        if (idx == 0) {
+          return;
+        }
+
+        document.getElementById('app_id').value = [ <?php foreach ($app_list as $id => $data) echo "'$id', " ?> ][idx-1];
+        document.getElementById('app_id_ipad').value = [ <?php foreach ($app_list as $id => $data) echo "'", $data['appid_ipad'], "', " ?> ][idx-1];
+        document.getElementById('app_affiliate').value = [ <?php foreach ($app_list as $id => $data) echo "'", $data['affiliate_data'], "', " ?> ][idx-1];
+      }
+    </script>
       <tr>
         <td><?php _e('Apps:','wsl-smart-app-banner'); ?></td>
-        <td><select><option></option>
+        <td><select onClick="if (typeof(this.selectedIndex) != 'undefined') { updateAppBannerTable(this.selectedIndex); }"><option></option>
         <?php
         foreach ($app_list as $appid => $appdata) {
-          echo '<option onclick="document.getElementById(\'app_id\').value = \'', $appid,'\';';
-          echo 'document.getElementById(\'app_id_ipad\').value = \'', $appdata['appid_ipad'],'\';';
-          echo 'document.getElementById(\'app_affiliate\').value = \'', $appdata['affiliate_data'],'\';';
-          echo '">';
-          echo $appdata['app_name'], '</option>';
+          echo '<option>', $appdata['app_name'], '</option>';
         }
         ?>
         </select></td>
