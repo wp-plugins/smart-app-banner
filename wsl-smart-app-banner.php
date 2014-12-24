@@ -14,7 +14,7 @@ Author URI: http://www.wandlesoftware.com/
 License: GPL
 */
 
-/*  Copyright 2012 Stephen Darlington, Wandle Software Limited
+/*  Copyright 2012-2014 Stephen Darlington, Wandle Software Limited
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
