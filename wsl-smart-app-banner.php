@@ -160,7 +160,7 @@ function wsl_smart_app_banner_options() {
       
         // Put an settings updated message on the screen
 ?>
-<div class="updated"><p><strong><?php __('app added.', 'wsl-smart-app-banner' ); ?></strong></p></div>
+<div class="updated"><p><strong><?php  _e( 'app added.', 'wsl-smart-app-banner' ); ?></strong></p></div>
 <?php
 
       }
@@ -188,7 +188,7 @@ function wsl_smart_app_banner_options() {
         // Put an settings updated message on the screen
 
 ?>
-<div class="updated"><p><strong><?php __('settings saved.', 'wsl-smart-app-banner' ); ?></strong></p></div>
+<div class="updated"><p><strong><?php _e('settings saved.', 'wsl-smart-app-banner' ); ?></strong></p></div>
 <?php
       }
     else { // delete
@@ -202,7 +202,7 @@ function wsl_smart_app_banner_options() {
 	update_option ($app_list_field_name, $app_list);
 
 ?>
-	  <div class="updated"><p><strong><?php __('deleted ', 'wsl-smart-app-banner' ); ?></strong></p></div>
+	  <div class="updated"><p><strong><?php _e('deleted ', 'wsl-smart-app-banner' ); ?></strong></p></div>
 <?php
       }
     }
