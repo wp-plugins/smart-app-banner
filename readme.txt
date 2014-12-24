@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: stephend
 Donate link: http://www.wandlesoftware.com/products/open-source-software/wordpress-smart-app-banner-plugin
-Tags: ios, iphone, smart, app, banner
+Tags: ios, iphone, ipad, smart, app, banner, apple
 Requires at least: 3.1.4
 Tested up to: 4.1.0
 Stable tag: 1.0.0
@@ -104,6 +104,9 @@ good patches.
 If you're upgrading from version 0.1 you'll need to add your App IDs again I'm afraid. You can remove the old wsl-app-id custom field.
 
 == Changelog ==
+
+= 1.1.0 =
+* Add dropdown list of apps
 
 = 1.0.0 =
 * Localisation support
