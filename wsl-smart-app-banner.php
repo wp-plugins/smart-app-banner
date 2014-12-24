@@ -149,19 +149,19 @@ function wsl_smart_app_banner_options() {
         $app_id_ipad = $_POST[$new_app_id_ipad_field];
         $app_affiliate_data = $_POST[$new_app_affiliate_field];
         
-        // TODO: validate
-        
-        $app_list[$app_id] = array (
-                  'app_name' => $app_name,
-                  'appid_ipad' => $app_id_ipad,
-                  'affiliate_data' => $app_affiliate_data,
-              );
-      update_option ($app_list_field_name, $app_list);
+        if (isset($app_id) and $app_id != "") {
+          $app_list[$app_id] = array (
+                    'app_name' => $app_name,
+                    'appid_ipad' => $app_id_ipad,
+                    'affiliate_data' => $app_affiliate_data,
+                );
+          update_option ($app_list_field_name, $app_list);
       
-        // Put an settings updated message on the screen
+          // Put an settings updated message on the screen
 ?>
 <div class="updated"><p><strong><?php  _e( 'app added.', 'wsl-smart-app-banner' ); ?></strong></p></div>
 <?php
+        }
 
       }
       elseif (isset($_POST['changeHome'])) {
