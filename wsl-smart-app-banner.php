@@ -128,6 +128,7 @@ function wsl_smart_app_banner_options() {
     $new_app_id_field = 'app_id';
     $new_app_id_ipad_field = 'app_id_ipad';
     $new_app_affiliate_field = 'app_affiliate';
+    $new_app_argument_field = 'app_argument';
     
     // Read in existing option value from database
     $appid_val = get_option( $appid_field_name );
@@ -148,12 +149,14 @@ function wsl_smart_app_banner_options() {
         $app_id = $_POST[$new_app_id_field];
         $app_id_ipad = $_POST[$new_app_id_ipad_field];
         $app_affiliate_data = $_POST[$new_app_affiliate_field];
+        $app_argument_data = $_POST[$new_app_argument_field];
         
         if (isset($app_id) and $app_id != "") {
           $app_list[$app_id] = array (
                     'app_name' => $app_name,
                     'appid_ipad' => $app_id_ipad,
                     'affiliate_data' => $app_affiliate_data,
+                    'app_argument' => $app_argument_data,
                 );
           update_option ($app_list_field_name, $app_list);
       
@@ -267,6 +270,7 @@ function wsl_smart_app_banner_options() {
     <td><h4><?php _e('App ID','wsl-smart-app-banner'); ?></h4></td>
     <td><h4><?php _e('App ID (iPad):','wsl-smart-app-banner'); ?></h4></td>
     <td><h4><?php _e('Affiliate data:','wsl-smart-app-banner'); ?></h4></td>
+    <td><h4><?php _e('App argument:','wsl-smart-app-banner'); ?></h4></td>
     <td>&nbsp;</td>
   </tr>
 
@@ -282,6 +286,7 @@ function wsl_smart_app_banner_options() {
     <td><?php echo $appid; ?></td>
     <td><?php echo $app['appid_ipad']; ?></td>
     <td><?php echo $app['affiliate_data']; ?></td>
+    <td><?php echo $app['app_argument']; ?></td>
   </tr>
 
 <?php
@@ -296,6 +301,7 @@ function wsl_smart_app_banner_options() {
     <td><input type="text" name="<?php echo $new_app_id_field;?>" /></td>
     <td><input type="text" name="<?php echo $new_app_id_ipad_field; ?>" /></td>
     <td><input type="text" name="<?php echo $new_app_affiliate_field; ?>" /></td>
+    <td><input type="text" name="<?php echo $new_app_argument_field; ?>" /></td>
     <td>&nbsp;</td>
   </tr>
 
@@ -359,6 +365,7 @@ function wsl_smart_app_banner_display_options( $post_id ) {
         document.getElementById('app_id').value = [ <?php foreach ($app_list as $id => $data) echo "'$id', " ?> ][idx-1];
         document.getElementById('app_id_ipad').value = [ <?php foreach ($app_list as $id => $data) echo "'", $data['appid_ipad'], "', " ?> ][idx-1];
         document.getElementById('app_affiliate').value = [ <?php foreach ($app_list as $id => $data) echo "'", $data['affiliate_data'], "', " ?> ][idx-1];
+        document.getElementById('app_argument').value = [ <?php foreach ($app_list as $id => $data) echo "'", $data['app_argument'], "', " ?> ][idx-1];
       }
     </script>
       <tr>
@@ -388,7 +395,7 @@ function wsl_smart_app_banner_display_options( $post_id ) {
       </tr>
       <tr>
         <td><?php _e('App argument:','wsl-smart-app-banner'); ?></td>
-        <td><input type="text" name="wsl_smart_app_banner_app_argument" value="<?php echo $app_argument[0]; ?>" /></td>
+        <td><input id="app_argument" type="text" name="wsl_smart_app_banner_app_argument" value="<?php echo $app_argument[0]; ?>" /></td>
       </tr>
     </table>
     <?php
